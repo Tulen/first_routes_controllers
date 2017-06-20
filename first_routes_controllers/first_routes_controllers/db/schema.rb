@@ -10,16 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170619214827) do
+ActiveRecord::Schema.define(version: 20170620001109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "users", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "email",      null: false
+  create_table "artwork_shares", force: :cascade do |t|
+    t.integer  "artwork_id", null: false
+    t.integer  "viewer_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["artwork_id", "viewer_id"], name: "index_artwork_shares_on_artwork_id_and_viewer_id", unique: true, using: :btree
+  end
+
+  create_table "artworks", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.text     "img_url",    null: false
+    t.integer  "artist_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title", "artist_id"], name: "index_artworks_on_title_and_artist_id", unique: true, using: :btree
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "username",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
 end
